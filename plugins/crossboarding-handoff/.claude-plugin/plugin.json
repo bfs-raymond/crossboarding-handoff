@@ -1,0 +1,8 @@
+{
+  "name": "crossboarding-handoff",
+  "version": "0.1.0",
+  "description": "Hand off coding work across machines and agents via git: /handoff writes HANDOFF.md and pushes a wip branch, /pickup continues it anywhere, /handoff-done opens the PR.",
+  "author": { "name": "crossboarding-handoff contributors" },
+  "license": "MIT",
+  "keywords": ["handoff", "multi-machine", "git", "worktree", "codex", "agent-skills"]
+}

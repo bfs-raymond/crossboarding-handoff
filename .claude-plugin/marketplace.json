@@ -1,0 +1,13 @@
+{
+  "name": "crossboarding-handoff",
+  "description": "Hand off coding work across machines and agents (Claude Code, Codex, agy) via git wip branches.",
+  "owner": { "name": "crossboarding-handoff contributors" },
+  "plugins": [
+    {
+      "name": "crossboarding-handoff",
+      "source": "./plugins/crossboarding-handoff",
+      "description": "handoff / pickup / handoff-done skills for moving work between machines and agents",
+      "version": "0.1.0"
+    }
+  ]
+}
