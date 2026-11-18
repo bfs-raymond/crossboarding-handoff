@@ -1,4 +1,4 @@
-﻿# crossboarding-handoff
+# crossboarding-handoff
 
 **Hand off coding work across machines and agents (Claude Code, Codex, agy) via git.**
 
@@ -7,20 +7,20 @@ crossboarding-handoff moves the work itself: stop on one machine with one agent,
 continue on another machine with any agent.
 
 ```
-machine A (claude)                         machine B (codex, agy, claude??
+machine A (claude)                         machine B (codex, agy, claude…)
   /handoff login-fix                         /pickup myrepo
-   ?쒋? agent writes HANDOFF.md from            ?쒋? clone/update ~/source/myrepo
-   ?? the live conversation                   ?쒋? switch to newest wip/* branch
-   ?붴? commit + push wip/login-fix  ??git????  ?쒋? read HANDOFF.md, run its checks
-                                              ?붴? summarize, continue
-                                           /handoff-done
-                                              ?붴? remove HANDOFF.md, open PR
+   ├─ agent writes HANDOFF.md from            ├─ clone/update ~/source/myrepo
+   │  the live conversation                   ├─ switch to newest wip/* branch
+   └─ commit + push wip/login-fix  ──git──▶   ├─ read HANDOFF.md, run its checks
+                                                  └─ summarize, continue
+                                               /handoff-done
+                                                  └─ remove HANDOFF.md, open PR
 ```
 
-- **Cross-machine** ??HANDOFF.md travels on a `wip/*` branch instead of staying in a local folder.
-- **Cross-agent** ??plain [Agent Skills](https://agentskills.io) `SKILL.md`, so the same skills work in Claude Code and Codex; any other agent can be told to follow the file.
-- **Verified pickup** ??the receiving agent runs the documented build/test commands and reports whether reality matches the note before continuing.
-- **Clean finish** ??`handoff-done` strips HANDOFF.md and opens a PR; squash merge keeps wip commits out of history.
+- **Cross-machine** — HANDOFF.md travels on a `wip/*` branch instead of staying in a local folder.
+- **Cross-agent** — plain [Agent Skills](https://agentskills.io) `SKILL.md`, so the same skills work in Claude Code and Codex; any other agent can be told to follow the file.
+- **Verified pickup** — the receiving agent runs the documented build/test commands and reports whether reality matches the note before continuing.
+- **Clean finish** — `handoff-done` strips HANDOFF.md and opens a PR; squash merge keeps wip commits out of history.
 
 ## Requirements
 
@@ -31,7 +31,7 @@ Linux or macOS (Windows: use WSL), `git`, a GitHub remote, and [`gh`](https://cl
 On every machine you work on:
 
 ```bash
-git clone https://github.com//crossboarding-handoff ~/crossboarding-handoff
+git clone https://github.com/bfs-raymond/crossboarding-handoff ~/crossboarding-handoff
 ~/crossboarding-handoff/install.sh
 echo 'export GH_OWNER=<your-github-user>' >> ~/.bashrc   # so `pickup myrepo` works
 ```
@@ -39,7 +39,7 @@ echo 'export GH_OWNER=<your-github-user>' >> ~/.bashrc   # so `pickup myrepo` wo
 Claude Code only, without the installer:
 
 ```
-/plugin install crossboarding-handoff --marketplace /crossboarding-handoff
+/plugin install crossboarding-handoff --marketplace bfs-raymond/crossboarding-handoff
 ```
 
 Update with `git pull` in the clone. For the Claude Code plugin, bump `version` in `plugin.json` and `marketplace.json` when you change it, then update it from `/plugin`.
@@ -61,7 +61,7 @@ The terminal `handoff` is a fallback; it asks `claude -c -p` to write the note f
 | Variable | Default | Meaning |
 |---|---|---|
 | `SOURCE_ROOT` | `~/source` | where `pickup` clones repos |
-| `GH_OWNER` | ??| default owner for `pickup <repo>` |
+| `GH_OWNER` | — | default owner for `pickup <repo>` |
 | `NOTE` | `1` | `0` = terminal `handoff` does not write HANDOFF.md |
 | `HANDOFF_NO_VERIFY` | `0` | `1` = skip git commit hooks (off by default so secret scanners still run) |
 
@@ -71,11 +71,11 @@ The terminal `handoff` is a fallback; it asks `claude -c -p` to write the note f
 - It does not move gitignored secrets (`.env`, keys). Use your own secret manager; `pickup` warns when `.env` is missing.
 - `handoff` runs `git add -A`. Keep `.gitignore` tidy; the skill stops and asks if secret-looking files are about to be committed.
 
-## ?쒓뎅???붿빟
+## 한국어 요약
 
-?щ윭 PC瑜??ㅺ?硫?Claude Code, Codex, agy濡??묒뾽?????곕뒗 ?ㅽ궗?낅땲??
-`/handoff` 瑜??ㅽ뻾?섎㈃ 吏湲???뷀븯???먯씠?꾪듃媛 HANDOFF.md瑜??곌퀬 `wip/*` 釉뚮옖移섎줈 push?⑸땲?? ?ㅻⅨ PC?먯꽌 `/pickup <repo>` 瑜??ㅽ뻾?섎㈃ 諛쏆븘???곹깭瑜??뺤씤?????댁뼱???묒뾽?⑸땲?? ?묒뾽???앸굹硫?`/handoff-done` ??HANDOFF.md瑜?吏?곌퀬 PR???쎈땲??
-?몃━嫄?臾멸뎄濡?"?몃뱶?ㅽ봽", "?댁뼱諛쏆븘", "留덈Т由ы븯?????몄떇?⑸땲??
+여러 PC를 오가며 Claude Code, Codex, agy로 작업할 때 쓰는 스킬입니다.
+`/handoff` 를 실행하면 지금 대화하던 에이전트가 HANDOFF.md를 쓰고 `wip/*` 브랜치로 push합니다. 다른 PC에서 `/pickup <repo>` 를 실행하면 받아서 상태를 확인한 뒤 이어서 작업합니다. 작업이 끝나면 `/handoff-done` 이 HANDOFF.md를 지우고 PR을 엽니다.
+트리거 문구로 "핸드오프", "이어받아", "마무리하자"도 인식합니다.
 
 ## License
 
